@@ -77,36 +77,23 @@ resource "google_compute_subnetwork" "k8s_subnet" {
   network       = "${google_compute_network.k8s_network.self_link}"
 }
 
-resource "google_compute_route" "k8s_worker0route" {
-  name        = "k8s-worker0route"
+resource "google_compute_route" "k8s_workerroute" {
+  count          = "${var.worker_count}"
+  name        = "k8s-worker${count.index}route"
   depends_on  = ["google_compute_instance.k8s_worker"]
-  dest_range  = "10.200.0.0/24"
+  dest_range  = "10.200.${count.index}.0/24"
   network     = "${google_compute_network.k8s_network.self_link}"
-  next_hop_ip = "${google_compute_instance.k8s_worker.0.network_interface.0.network_ip}"
-  priority    = 100
-}
-
-resource "google_compute_route" "k8s_worker1route" {
-  name        = "k8s-worker1route"
-  dest_range  = "10.200.1.0/24"
-  depends_on  = ["google_compute_instance.k8s_worker"]
-  network     = "${google_compute_network.k8s_network.self_link}"
-  next_hop_ip = "${google_compute_instance.k8s_worker.1.network_interface.0.network_ip}"
-  priority    = 100
-}
-
-resource "google_compute_route" "k8s_worker2route" {
-  name        = "k8s-worker2route"
-  dest_range  = "10.200.2.0/24"
-  depends_on  = ["google_compute_instance.k8s_worker"]
-  network     = "${google_compute_network.k8s_network.self_link}"
-  next_hop_ip = "${google_compute_instance.k8s_worker.2.network_interface.0.network_ip}"
+  next_hop_ip = "${google_compute_instance.k8s_worker[count.index].network_interface.0.network_ip}"
   priority    = 100
 }
 
 resource "google_compute_target_pool" "k8s_lbtartgetpool" {
   name = "k8s-lbtartgetpool"
-
+#  count          = "${var.controller_count}"
+#  instances = [
+#    "${var.region}-${lookup(var.zone_map, count.index)}/${google_compute_instance.k8s_controller.count.index.name}"
+#  ]
+#
   instances = [
     "${var.region}-${lookup(var.zone_map, 0)}/${google_compute_instance.k8s_controller.0.name}",
     "${var.region}-${lookup(var.zone_map, 1)}/${google_compute_instance.k8s_controller.1.name}",

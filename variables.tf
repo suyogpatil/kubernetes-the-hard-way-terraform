@@ -23,7 +23,7 @@ variable "controller_type" {
 }
 
 variable "project" {
-  default = "k8s-the-hard-way-tf" # TODO: Might need to append to if GCP adds a number at the end.
+  default = "cc-interview-sandbox" # TODO: Might need to append to if GCP adds a number at the end.
 }
 
 variable "region" {
@@ -35,11 +35,11 @@ variable "scripts_path" {
 }
 
 variable "ssh_path" {
-  default = "" # TODO: Path to private key that matches the public key added to the project metadata.
+  default = "~/.ssh/google_compute_engine" # TODO: Path to private key that matches the public key added to the project metadata.
 }
 
 variable "user" {
-  default = "" # TODO: Username on local system (run `whoami` to get this value).
+  default = "suyog.patil" # TODO: Username on local system (run `whoami` to get this value).
 }
 
 variable "worker_count" {
