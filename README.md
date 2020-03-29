@@ -18,6 +18,17 @@ Tested with
 - Terraform v0.12.24
 - Kubernetes 1.15.3
 
+FIXES:
+- Changed syntax as per latest terraform version
+- Make worker number dynamic
+- Updated installation scripts for `Kubernetes 1.15.3` [Update commit for Kelsey tutorial](https://github.com/kelseyhightower/kubernetes-the-hard-way/commit/5c462220b7f2c03b4b699e89680d0cc007a76f91#diff-03d99155352c96169d8f7f7b99410320)
+
+TODO
+- coredns issue when workers decreased from 3 or 2 to 1 (Some DNS looping issue)
+- add LB,storage providers for GCP for dynamic assignment of IPs and storage disks
+- make controller number dynamic and update scripts
+
+---
 ## Getting Started
 
 1. If you don't already have one, sign up for a [Google Cloud Platform account](https://cloud.google.com/).
