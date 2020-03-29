@@ -14,19 +14,19 @@
 
 **PRE-ALPHA**. Please don't use the project for any production workloads. Also, be sure to spin your cluster down if you aren't using it as it will cost you--or your company--money.
 
-Tested with
+**Tested with below versions:**
 - Terraform v0.12.24
 - Kubernetes 1.15.3
 
-FIXES:
+**FIXES in this fork:**
 - Changed syntax as per latest terraform version
-- Make worker number dynamic
+- Made worker number dynamic
 - Updated installation scripts for `Kubernetes 1.15.3` [Update commit for Kelsey tutorial](https://github.com/kelseyhightower/kubernetes-the-hard-way/commit/5c462220b7f2c03b4b699e89680d0cc007a76f91#diff-03d99155352c96169d8f7f7b99410320)
 
-TODO
-- coredns issue when workers decreased from 3 or 2 to 1 (Some DNS looping issue)
-- add LB,storage providers for GCP for dynamic assignment of IPs and storage disks
-- make controller number dynamic and update scripts
+**TODO in this fork:**
+- Coredns issue when workers decreased from 3 or 2 to 1 (Some DNS looping issue)
+- Add LB,storage providers for GCP for dynamic assignment of IPs and storage disks
+- Make controller number dynamic and update scripts
 
 ---
 ## Getting Started
