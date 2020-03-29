@@ -491,7 +491,6 @@ resource "google_compute_instance" "k8s_worker" {
   }
 
   provisioner "remote-exec" {
-    depends_on  = [google_compute_instance.k8s_controller]
     connection {
       private_key = "${file(var.ssh_path)}"
       user        = "${var.user}"
