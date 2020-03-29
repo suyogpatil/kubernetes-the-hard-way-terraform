@@ -15,8 +15,8 @@
 **PRE-ALPHA**. Please don't use the project for any production workloads. Also, be sure to spin your cluster down if you aren't using it as it will cost you--or your company--money.
 
 **Tested with below versions:**
-- Terraform v0.12.24
-- Kubernetes 1.15.3
+- `Terraform v0.12.24`
+- `Kubernetes 1.15.3`
 
 **FIXES in this fork:**
 - Changed syntax as per latest terraform version
