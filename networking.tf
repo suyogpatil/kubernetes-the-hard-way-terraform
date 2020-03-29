@@ -80,7 +80,7 @@ resource "google_compute_subnetwork" "k8s_subnet" {
 resource "google_compute_route" "k8s_workerroute" {
   count          = "${var.worker_count}"
   name        = "k8s-worker${count.index}route"
-  depends_on  = ["google_compute_instance.k8s_worker"]
+  depends_on  = [google_compute_instance.k8s_worker]
   dest_range  = "10.200.${count.index}.0/24"
   network     = "${google_compute_network.k8s_network.self_link}"
   next_hop_ip = "${google_compute_instance.k8s_worker[count.index].network_interface.0.network_ip}"
