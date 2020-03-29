@@ -16,6 +16,7 @@
 
 Tested with
 - Terraform v0.12.24
+- Kubernetes 1.15.3
 
 ## Getting Started
 
