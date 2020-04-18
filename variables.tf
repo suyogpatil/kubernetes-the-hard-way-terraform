@@ -35,11 +35,15 @@ variable "scripts_path" {
 }
 
 variable "ssh_path" {
-  default = "" # TODO: Path to private key that matches the public key added to the project metadata.
+  default = "~/.ssh/google_compute_engine" # TODO: Path to private key that matches the public key added to the project metadata.
+}
+
+variable "account_json" {
+  default = "~/Documents/cc-interview-sandbox-344347e0ba33.json" # GKE service account JSON to create resources
 }
 
 variable "user" {
-  default = "" # TODO: Username on local system (run `whoami` to get this value).
+  default = "suyog.patil" # TODO: Username on local system (run `whoami` to get this value).
 }
 
 variable "worker_count" {

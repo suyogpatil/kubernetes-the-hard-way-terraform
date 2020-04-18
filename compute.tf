@@ -3,8 +3,8 @@ resource "google_compute_instance" "k8s_controller" {
     auto_delete = true
 
     initialize_params {
-      image = "${var.controller_image}"
-      size  = "${var.controller_size}"
+      image = var.controller_image
+      size  = var.controller_size
     }
   }
 
@@ -14,11 +14,11 @@ resource "google_compute_instance" "k8s_controller" {
   name           = "k8s-controller${count.index}"
 
   network_interface {
-    access_config = {}
+    access_config {}
     subnetwork    = "${google_compute_subnetwork.k8s_subnet.name}"
   }
 
-  metadata {
+  metadata = {
     creator = "${var.user}"
   }
 
@@ -27,6 +27,7 @@ resource "google_compute_instance" "k8s_controller" {
       private_key = "${file(var.ssh_path)}"
       user        = "${var.user}"
       type        = "ssh"
+      host  = "${self.network_interface.0.access_config.0.nat_ip}"
     }
 
     destination = "add-ssh-keys.sh"
@@ -38,6 +39,7 @@ resource "google_compute_instance" "k8s_controller" {
       private_key = "${file(var.ssh_path)}"
       user        = "${var.user}"
       type        = "ssh"
+      host  = "${self.network_interface.0.access_config.0.nat_ip}"
     }
 
     destination = "admin.pem"
@@ -49,6 +51,7 @@ resource "google_compute_instance" "k8s_controller" {
       private_key = "${file(var.ssh_path)}"
       user        = "${var.user}"
       type        = "ssh"
+      host  = "${self.network_interface.0.access_config.0.nat_ip}"
     }
 
     destination = "admin-key.pem"
@@ -60,6 +63,7 @@ resource "google_compute_instance" "k8s_controller" {
       private_key = "${file(var.ssh_path)}"
       user        = "${var.user}"
       type        = "ssh"
+      host  = "${self.network_interface.0.access_config.0.nat_ip}"
     }
 
     destination = "ca.pem"
@@ -71,6 +75,7 @@ resource "google_compute_instance" "k8s_controller" {
       private_key = "${file(var.ssh_path)}"
       user        = "${var.user}"
       type        = "ssh"
+      host  = "${self.network_interface.0.access_config.0.nat_ip}"
     }
 
     destination = "ca-config.json"
@@ -82,6 +87,7 @@ resource "google_compute_instance" "k8s_controller" {
       private_key = "${file(var.ssh_path)}"
       user        = "${var.user}"
       type        = "ssh"
+      host  = "${self.network_interface.0.access_config.0.nat_ip}"
     }
 
     destination = "ca-key.pem"
@@ -93,6 +99,7 @@ resource "google_compute_instance" "k8s_controller" {
       private_key = "${file(var.ssh_path)}"
       user        = "${var.user}"
       type        = "ssh"
+      host  = "${self.network_interface.0.access_config.0.nat_ip}"
     }
 
     destination = "create-rbac.sh"
@@ -104,6 +111,7 @@ resource "google_compute_instance" "k8s_controller" {
       private_key = "${file(var.ssh_path)}"
       user        = "${var.user}"
       type        = "ssh"
+      host  = "${self.network_interface.0.access_config.0.nat_ip}"
     }
 
     destination = "encryption-config.yaml"
@@ -115,6 +123,7 @@ resource "google_compute_instance" "k8s_controller" {
       private_key = "${file(var.ssh_path)}"
       user        = "${var.user}"
       type        = "ssh"
+      host  = "${self.network_interface.0.access_config.0.nat_ip}"
     }
 
     destination = "gen-admin-config.sh"
@@ -126,6 +135,7 @@ resource "google_compute_instance" "k8s_controller" {
       private_key = "${file(var.ssh_path)}"
       user        = "${var.user}"
       type        = "ssh"
+      host  = "${self.network_interface.0.access_config.0.nat_ip}"
     }
 
     destination = "gen-api-server-certs.sh"
@@ -137,6 +147,7 @@ resource "google_compute_instance" "k8s_controller" {
       private_key = "${file(var.ssh_path)}"
       user        = "${var.user}"
       type        = "ssh"
+      host  = "${self.network_interface.0.access_config.0.nat_ip}"
     }
 
     destination = "gen-controller-manager-config.sh"
@@ -148,6 +159,7 @@ resource "google_compute_instance" "k8s_controller" {
       private_key = "${file(var.ssh_path)}"
       user        = "${var.user}"
       type        = "ssh"
+      host  = "${self.network_interface.0.access_config.0.nat_ip}"
     }
 
     destination = "gen-scheduler-config.sh"
@@ -159,6 +171,7 @@ resource "google_compute_instance" "k8s_controller" {
       private_key = "${file(var.ssh_path)}"
       user        = "${var.user}"
       type        = "ssh"
+      host  = "${self.network_interface.0.access_config.0.nat_ip}"
     }
 
     destination = "install-controller.sh"
@@ -170,6 +183,7 @@ resource "google_compute_instance" "k8s_controller" {
       private_key = "${file(var.ssh_path)}"
       user        = "${var.user}"
       type        = "ssh"
+      host  = "${self.network_interface.0.access_config.0.nat_ip}"
     }
 
     destination = "kubernetes-csr.json"
@@ -181,6 +195,7 @@ resource "google_compute_instance" "k8s_controller" {
       private_key = "${file(var.ssh_path)}"
       user        = "${var.user}"
       type        = "ssh"
+      host  = "${self.network_interface.0.access_config.0.nat_ip}"
     }
 
     destination = "kube-controller-manager.pem"
@@ -192,6 +207,7 @@ resource "google_compute_instance" "k8s_controller" {
       private_key = "${file(var.ssh_path)}"
       user        = "${var.user}"
       type        = "ssh"
+      host  = "${self.network_interface.0.access_config.0.nat_ip}"
     }
 
     destination = "kube-controller-manager-key.pem"
@@ -203,6 +219,7 @@ resource "google_compute_instance" "k8s_controller" {
       private_key = "${file(var.ssh_path)}"
       user        = "${var.user}"
       type        = "ssh"
+      host  = "${self.network_interface.0.access_config.0.nat_ip}"
     }
 
     destination = "kube-scheduler.pem"
@@ -214,6 +231,7 @@ resource "google_compute_instance" "k8s_controller" {
       private_key = "${file(var.ssh_path)}"
       user        = "${var.user}"
       type        = "ssh"
+      host  = "${self.network_interface.0.access_config.0.nat_ip}"
     }
 
     destination = "kube-scheduler-key.pem"
@@ -225,6 +243,7 @@ resource "google_compute_instance" "k8s_controller" {
       private_key = "${file(var.ssh_path)}"
       user        = "${var.user}"
       type        = "ssh"
+      host  = "${self.network_interface.0.access_config.0.nat_ip}"
     }
 
     destination = "service-account.pem"
@@ -236,6 +255,7 @@ resource "google_compute_instance" "k8s_controller" {
       private_key = "${file(var.ssh_path)}"
       user        = "${var.user}"
       type        = "ssh"
+      host  = "${self.network_interface.0.access_config.0.nat_ip}"
     }
 
     destination = "service-account-key.pem"
@@ -247,6 +267,7 @@ resource "google_compute_instance" "k8s_controller" {
       private_key = "${file(var.ssh_path)}"
       user        = "${var.user}"
       type        = "ssh"
+      host  = "${self.network_interface.0.access_config.0.nat_ip}"
     }
 
     destination = "start-controller.sh"
@@ -258,6 +279,7 @@ resource "google_compute_instance" "k8s_controller" {
       private_key = "${file(var.ssh_path)}"
       user        = "${var.user}"
       type        = "ssh"
+      host  = "${self.network_interface.0.access_config.0.nat_ip}"
     }
 
     destination = "start-etcd.sh"
@@ -269,6 +291,7 @@ resource "google_compute_instance" "k8s_controller" {
       private_key = "${file(var.ssh_path)}"
       user        = "${var.user}"
       type        = "ssh"
+      host  = "${self.network_interface.0.access_config.0.nat_ip}"
     }
 
     inline = [
@@ -310,11 +333,11 @@ resource "google_compute_instance" "k8s_worker" {
   name           = "k8s-worker${count.index}"
 
   network_interface {
-    access_config = {}
+    access_config {}
     subnetwork    = "${google_compute_subnetwork.k8s_subnet.name}"
   }
 
-  metadata {
+  metadata = {
     creator  = "${var.user}"
     pod-cidr = "10.200.${count.index}.0/24"
   }
@@ -324,6 +347,7 @@ resource "google_compute_instance" "k8s_worker" {
       private_key = "${file(var.ssh_path)}"
       user        = "${var.user}"
       type        = "ssh"
+      host  = "${self.network_interface.0.access_config.0.nat_ip}"
     }
 
     destination = "add-ssh-keys.sh"
@@ -335,6 +359,7 @@ resource "google_compute_instance" "k8s_worker" {
       private_key = "${file(var.ssh_path)}"
       user        = "${var.user}"
       type        = "ssh"
+      host  = "${self.network_interface.0.access_config.0.nat_ip}"
     }
 
     destination = "ca.pem"
@@ -346,6 +371,7 @@ resource "google_compute_instance" "k8s_worker" {
       private_key = "${file(var.ssh_path)}"
       user        = "${var.user}"
       type        = "ssh"
+      host  = "${self.network_interface.0.access_config.0.nat_ip}"
     }
 
     destination = "ca-key.pem"
@@ -357,6 +383,7 @@ resource "google_compute_instance" "k8s_worker" {
       private_key = "${file(var.ssh_path)}"
       user        = "${var.user}"
       type        = "ssh"
+      host  = "${self.network_interface.0.access_config.0.nat_ip}"
     }
 
     destination = "ca-config.json"
@@ -368,6 +395,7 @@ resource "google_compute_instance" "k8s_worker" {
       private_key = "${file(var.ssh_path)}"
       user        = "${var.user}"
       type        = "ssh"
+      host  = "${self.network_interface.0.access_config.0.nat_ip}"
     }
 
     destination = "gen-client-certs.sh"
@@ -379,6 +407,7 @@ resource "google_compute_instance" "k8s_worker" {
       private_key = "${file(var.ssh_path)}"
       user        = "${var.user}"
       type        = "ssh"
+      host  = "${self.network_interface.0.access_config.0.nat_ip}"
     }
 
     destination = "gen-kubelet-config.sh"
@@ -390,6 +419,7 @@ resource "google_compute_instance" "k8s_worker" {
       private_key = "${file(var.ssh_path)}"
       user        = "${var.user}"
       type        = "ssh"
+      host  = "${self.network_interface.0.access_config.0.nat_ip}"
     }
 
     destination = "gen-proxy-config.sh"
@@ -401,6 +431,7 @@ resource "google_compute_instance" "k8s_worker" {
       private_key = "${file(var.ssh_path)}"
       user        = "${var.user}"
       type        = "ssh"
+      host  = "${self.network_interface.0.access_config.0.nat_ip}"
     }
 
     destination = "kube-proxy.pem"
@@ -412,6 +443,7 @@ resource "google_compute_instance" "k8s_worker" {
       private_key = "${file(var.ssh_path)}"
       user        = "${var.user}"
       type        = "ssh"
+      host  = "${self.network_interface.0.access_config.0.nat_ip}"
     }
 
     destination = "kube-proxy-key.pem"
@@ -423,6 +455,7 @@ resource "google_compute_instance" "k8s_worker" {
       private_key = "${file(var.ssh_path)}"
       user        = "${var.user}"
       type        = "ssh"
+      host  = "${self.network_interface.0.access_config.0.nat_ip}"
     }
 
     destination = "install-worker.sh"
@@ -434,6 +467,7 @@ resource "google_compute_instance" "k8s_worker" {
       private_key = "${file(var.ssh_path)}"
       user        = "${var.user}"
       type        = "ssh"
+      host  = "${self.network_interface.0.access_config.0.nat_ip}"
     }
 
     destination = "k8s-worker${count.index}-csr.json"
@@ -449,6 +483,7 @@ resource "google_compute_instance" "k8s_worker" {
       private_key = "${file(var.ssh_path)}"
       user        = "${var.user}"
       type        = "ssh"
+      host  = "${self.network_interface.0.access_config.0.nat_ip}"
     }
 
     destination = "start-worker.sh"
@@ -460,6 +495,7 @@ resource "google_compute_instance" "k8s_worker" {
       private_key = "${file(var.ssh_path)}"
       user        = "${var.user}"
       type        = "ssh"
+      host  = "${self.network_interface.0.access_config.0.nat_ip}"
     }
 
     inline = [

@@ -19,6 +19,7 @@ Description=etcd
 Documentation=https://github.com/coreos
 
 [Service]
+Type=notify
 ExecStart=/usr/local/bin/etcd \\
   --name ${ETCD_NAME} \\
   --cert-file=/etc/etcd/kubernetes.pem \\
@@ -47,6 +48,9 @@ EOF
 sudo systemctl daemon-reload
 sudo systemctl enable etcd
 sudo systemctl start etcd
+
+#sleep for etcdctl to start
+sleep 20
 
 # Verify that everything is working
 sudo ETCDCTL_API=3 etcdctl member list \

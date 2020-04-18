@@ -33,14 +33,14 @@ ExecStart=/usr/local/bin/kube-apiserver \\
   --authorization-mode=Node,RBAC \\
   --bind-address=0.0.0.0 \\
   --client-ca-file=/var/lib/kubernetes/ca.pem \\
-  --enable-admission-plugins=Initializers,NamespaceLifecycle,NodeRestriction,LimitRanger,ServiceAccount,DefaultStorageClass,ResourceQuota \\
+  --enable-admission-plugins=NamespaceLifecycle,NodeRestriction,LimitRanger,ServiceAccount,DefaultStorageClass,ResourceQuota \\
   --enable-swagger-ui=true \\
   --etcd-cafile=/var/lib/kubernetes/ca.pem \\
   --etcd-certfile=/var/lib/kubernetes/kubernetes.pem \\
   --etcd-keyfile=/var/lib/kubernetes/kubernetes-key.pem \\
   --etcd-servers=https://${CONTROLLER0_IP}:2379,https://${CONTROLLER1_IP},https://${CONTROLLER2_IP}:2379 \\
   --event-ttl=1h \\
-  --experimental-encryption-provider-config=/var/lib/kubernetes/encryption-config.yaml \\
+  --encryption-provider-config=/var/lib/kubernetes/encryption-config.yaml \\
   --kubelet-certificate-authority=/var/lib/kubernetes/ca.pem \\
   --kubelet-client-certificate=/var/lib/kubernetes/kubernetes.pem \\
   --kubelet-client-key=/var/lib/kubernetes/kubernetes-key.pem \\
@@ -92,7 +92,7 @@ EOF
 sudo mv kube-scheduler.kubeconfig /var/lib/kubernetes/
 
 cat <<EOF | sudo tee /etc/kubernetes/config/kube-scheduler.yaml
-apiVersion: componentconfig/v1alpha1
+apiVersion: kubescheduler.config.k8s.io/v1alpha1
 kind: KubeSchedulerConfiguration
 clientConnection:
   kubeconfig: "/var/lib/kubernetes/kube-scheduler.kubeconfig"
@@ -122,6 +122,7 @@ sudo systemctl enable kube-apiserver kube-controller-manager kube-scheduler
 sudo systemctl start kube-apiserver kube-controller-manager kube-scheduler
 
 # Enable HTTP Health Checks
+sudo apt-get update
 sudo apt-get install -y nginx
 
 cat > kubernetes.default.svc.cluster.local <<EOF
@@ -143,8 +144,13 @@ sudo ln -s /etc/nginx/sites-available/kubernetes.default.svc.cluster.local /etc/
 sudo systemctl restart nginx
 sudo systemctl enable nginx
 
+#sleep for etcdctl to start
+sleep 20
+
 # Enable DNS Cluster Add-On
 IS_ETCD_LEADER=$(sudo ETCDCTL_API=3 etcdctl -w table --endpoints=https://127.0.0.1:2379 --cacert=/etc/etcd/ca.pem --cert=/etc/etcd/kubernetes.pem --key=/etc/etcd/kubernetes-key.pem endpoint status | tr -d ' +-' | awk -F '|' '{print $6}' | grep -i 'true')
+
+echo
 
 if [ "$IS_ETCD_LEADER" == "true" ]
 then
