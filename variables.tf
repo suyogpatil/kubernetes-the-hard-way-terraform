@@ -23,7 +23,7 @@ variable "controller_type" {
 }
 
 variable "project" {
-  default = "cc-interview-sandbox" # TODO: Might need to append to if GCP adds a number at the end.
+  default = "k8s-the-hard-way-tf" # TODO: Might need to append to if GCP adds a number at the end.
 }
 
 variable "region" {
